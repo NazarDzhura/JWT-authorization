@@ -18,12 +18,12 @@ class MailService {
         await this.transporter.sendMail({
             from: process.env.SMTP_USER,
             to,
-            subject: 'Activate your Synthesis account',
+            subject: 'Activate your account',
             text: '',
             html:
                 `
                     <div>
-                        <h1>To activate your Synthesis account follow the link below:</h1>
+                        <h1>To activate your account follow the link below:</h1>
                         <a href="${link}">${link}</a>
                     </div>
                 `
