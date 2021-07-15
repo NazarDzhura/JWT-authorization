@@ -1,5 +1,5 @@
 # JWT-authorization 
-Realized JWT access, refresh authorization using Node.js and React.js (Typescript template) with email account activation.
+Realized JWT(JSON Web Token) access, refresh authorization using Node.js and React.js (Typescript template) with email account activation.
 
 ## To run:
 1. In __server/.env__ you should replace:
@@ -9,7 +9,7 @@ Realized JWT access, refresh authorization using Node.js and React.js (Typescrip
 	* __SMTP_PASSWORD__'s value to password to your email
 2. In terminal enter the following:
 	`cd server`
-    `npm run dev`
+    	`npm run dev`
 to run the server side of application.
 3. Open new terminal and enter the following:
 	`cd client`
@@ -26,4 +26,7 @@ to run the client side of application.
 * Password required range can be set in __server/router/index.js__ in 9th line:
     `body('password').isLength({min: 3, max: 32})`
 
-
+#### Fixing errors:
+* To fix __'react-scripts' is not recognized as an internal or external command__ when trying to run client do the following:
+	* `cd client`
+	  `npm install react-scripts --save`
