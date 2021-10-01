@@ -1,13 +1,16 @@
-import React, {FC, useContext, useEffect, useState} from 'react';
-import LoginForm from "./components/LoginForm";
+import React, {FC, useContext, useEffect} from 'react';
+import {Login} from "./views/Login"
 import {Context} from "./index";
 import {observer} from "mobx-react-lite";
-import {IUser} from "./models/IUser";
-import UserService from "./services/UserService";
+import {Switch, Route, Redirect, BrowserRouter, Link} from "react-router-dom";
+import {HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE} from "./utils/consts";
+import ProtectedRoute from "./components/ProtectedRoute";
+import {Home} from "./views/Home";
+import ButtonAppBar from "./components/ButtonAppBar";
+import {Register} from "./views/Register";
 
 const App: FC = () => {
   const {store} = useContext(Context);
-  const [users, setUsers] = useState<IUser[]>([]);
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -15,41 +18,31 @@ const App: FC = () => {
     }
   }, [])
 
-  async function getUsers() {
-    try {
-      const response = await UserService.fetchUsers();
-      setUsers(response.data);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   if (store.isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (!store.isAuth) {
-    return (
-        <div>
-          <LoginForm/>
-          <button onClick={getUsers}>Get all users</button>
-        </div>
-    );
+    return <h1>Loading...</h1>
   }
 
   return (
-      <div>
-        <h1>{store.isAuth ? `User with email ${store.user.email} is logged in` : 'Log in'}</h1>
-        <h1>{store.user.isActivated ? 'Account is activated' : 'Please, activate your account'}</h1>
-        <button onClick={() => store.logout()}>Log out</button>
-        <div>
-          <button onClick={getUsers}>Get all users</button>
-        </div>
-        {users.map(user =>
-            <div key={user.email}>{user.email}</div>
-        )}
-      </div>
+      <>
+          <BrowserRouter>
+              {store.isAuth ? <ButtonAppBar /> : null}
+              <Switch>
+                  <Route path={LOGIN_ROUTE}>
+                      {!store.isAuth ? <Login/> : <Redirect to={{pathname: HOME_ROUTE}}/>}
+                  </Route>
+                  <ProtectedRoute path={HOME_ROUTE} exact>
+                      {store.isAuth ? <Home/> : <Redirect to={{pathname: LOGIN_ROUTE}}/>}
+                  </ProtectedRoute>
+                  <Route path={REGISTRATION_ROUTE}>
+                      {!store.isAuth ? <Register/> : <Redirect to={{pathname: HOME_ROUTE}}/>}
+                  </Route>
+                  <Route>
+                      <h1>404 Not Found</h1>
+                  </Route>
+              </Switch>
+          </BrowserRouter>
+      </>
   );
-};
+}
 
 export default observer(App);

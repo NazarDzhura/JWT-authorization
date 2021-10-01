@@ -4,11 +4,11 @@ import {observer} from "mobx-react-lite";
 import {Avatar, Button, Checkbox, Grid, Link, Paper, TextField, Typography} from "@material-ui/core";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import {REGISTRATION_ROUTE} from "../utils/consts";
+import {LOGIN_ROUTE} from "../utils/consts";
 import {useHistory} from "react-router-dom";
 import useInput from "../hooks/useInput";
 
-const LoginForm: FC = () => {
+const RegisterForm: FC = () => {
     const email = useInput('')
     const password = useInput('')
     const {store} = useContext(Context);
@@ -19,7 +19,7 @@ const LoginForm: FC = () => {
     const btnstyle={margin:'8px 0'}
 
     const keyPressHandler = (event: React.KeyboardEvent) => {
-        if (event.key === 'Enter') {store.login(email.value, password.value)}
+        if (event.key === 'Enter') {store.registration(email.value, password.value)}
     }
 
     return (
@@ -59,20 +59,15 @@ const LoginForm: FC = () => {
                     type='submit'
                     color='primary'
                     variant="contained"
-                    onClick={() => store.login(email.value, password.value)}
+                    onClick={() => store.registration(email.value, password.value)}
                     style={btnstyle}
                     fullWidth
                 >
-                    Sign in
+                    Sign up
                 </Button>
-                <Typography >
-                    <Link>
-                        Forgot password ?
-                    </Link>
-                </Typography>
-                <Typography > Do you have an account?
-                    <Link onClick={() => history.push(REGISTRATION_ROUTE)}>
-                        Sign Up
+                <Typography > Already have an account?
+                    <Link onClick={() => history.push(LOGIN_ROUTE)}>
+                        Sign In
                     </Link>
                 </Typography>
             </Paper>
@@ -80,4 +75,4 @@ const LoginForm: FC = () => {
     );
 };
 
-export default observer(LoginForm);
+export default observer(RegisterForm);

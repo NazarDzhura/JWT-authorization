@@ -1,17 +1,9 @@
-# JWT-authorization 
-Realized JWT(JSON Web Token) access, refresh authorization using Node.js and React.js (Typescript template) with email account activation.
-
 ## To run:
-1. In __server/.env__ you should replace:
-	* __DB_URL__'s value to your data base url
-	* __JWT_ACCESS_SECRET__'s and __JWT_REFRESH_SECRET__'s values to any other
-	* __SMTP_USER__'s value to your email
-	* __SMTP_PASSWORD__'s value to password to your email
-2. In terminal enter the following:
+1. In terminal enter the following:
 	`cd server`
     	`npm run dev`
 to run the server side of application.
-3. Open new terminal and enter the following:
+2. Open new terminal and enter the following:
 	`cd client`
 	`npm start`	 
 to run the client side of application.
